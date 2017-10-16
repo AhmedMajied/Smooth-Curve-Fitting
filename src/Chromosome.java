@@ -6,4 +6,11 @@ public class Chromosome {
 	public Chromosome(int itemsNumber){
 		bits = new int[itemsNumber];
 	}
+	
+	public void CrossOver(int point,Chromosome c) {
+		
+			for(int i=0;i<point;++i)
+				bits[i]=c.bits[i];
+		
+	}
 }

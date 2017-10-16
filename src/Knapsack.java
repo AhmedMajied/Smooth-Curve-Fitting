@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Knapsack {
 	public static TestCase [] TestCases;
@@ -87,6 +88,20 @@ public class Knapsack {
 			else{
 				randomPopulation[chromosomeIndex].fitness = chromosomeBenefit;
 			}
+		}
+	}
+	
+	public static void CrossOver(Chromosome selection[]) {
+		for(int i=0;i<selection.length-2;i+=2) {
+			Random r1 = new Random();
+			int point = r1.nextInt(selection[i].bits.length);
+			float r2=r1.nextFloat();
+			if(r2<=0.5)
+			{
+				selection[i].CrossOver(point, selection[i+1]);
+				selection[i+1].CrossOver(point, selection[i]);
+			}
+			
 		}
 	}
 
