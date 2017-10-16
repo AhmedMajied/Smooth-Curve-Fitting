@@ -1,9 +1,9 @@
 
-public class Chromosom {
+public class Chromosome {
 	public int bits[];
 	public int fitness;
 	
-	public Chromosom(int itemsNumber){
+	public Chromosome(int itemsNumber){
 		bits = new int[itemsNumber];
 	}
 }

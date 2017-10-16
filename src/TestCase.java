@@ -7,6 +7,14 @@ public class TestCase {
 		this.knapsackSize = knapsackSize;
 		Items = new Item[itemsNumber];
 	}
+	
+	public int getItemWeight(int index){
+		return Items[index].weight;
+	}
+	
+	public int getItemBenefit(int index){
+		return Items[index].benefit;
+	}
 }
 
 class Item{
