@@ -121,5 +121,28 @@ public class Knapsack {
 			
 		}
 	}
+	private static void mutation()
+	{
+		double Pm=0.001;
+		for(int i=0;i<offspringChromosomes.length;i++)
+		{
+			for(int j=0;j<offspringChromosomes[i].bits.length;j++)
+			{
+				double random=Math.random();
+				if(random<=Pm)
+				{
+					if(offspringChromosomes[i].bits[j]==1)
+					{
+						offspringChromosomes[i].bits[j]=0;
+					}
+					else if(offspringChromosomes[i].bits[j]==0)
+					{
+						offspringChromosomes[i].bits[j]=1;
+					}
+				}
+			}
+		}
+	}
+
 
 }
