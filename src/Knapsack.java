@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class Knapsack {
@@ -6,6 +7,7 @@ public class Knapsack {
 	public static int popSize = 5; // can be changed
 	public static int maxNumberOfGenerations = 1;// can be changed
 	public static Chromosome selectedChromosomes[];
+	public static Chromosome offspringChromosomes[];
 	
 	public static void main(String [] args){
 		int testCasesNumber = FileUtility.readTestCasesFile();
@@ -33,7 +35,7 @@ public class Knapsack {
 				
 				
 				selectChoromosomes(selectionSize);
-				
+				offspringChromosomes = Arrays.copyOf(selectedChromosomes, selectionSize);
 				crossOver();
 				
 				/* here where mutation function should be called */
