@@ -7,7 +7,7 @@ public class Chromosome {
 		bits = new int[itemsNumber];
 	}
 	
-	public void CrossOver(int point,Chromosome c) {
+	public void crossOver(int point,Chromosome c) {
 		for(int i=0;i<point;++i)
 			bits[i]=c.bits[i];	
 	}

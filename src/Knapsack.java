@@ -34,7 +34,7 @@ public class Knapsack {
 				
 				selectChoromosomes(selectionSize);
 				
-				/* here where Xover function should be called */
+				crossOver();
 				
 				/* here where mutation function should be called */
 				
@@ -106,15 +106,15 @@ public class Knapsack {
 		}
 	}
 	
-	private static void CrossOver(Chromosome selection[]) {
-		for(int i=0;i<selection.length-2;i+=2) {
+	private static void crossOver() {
+		for(int i=0;i<selectedChromosomes.length-2;i+=2) {
 			Random r1 = new Random();
-			int point = r1.nextInt(selection[i].bits.length);
+			int point = r1.nextInt(selectedChromosomes[i].bits.length);
 			float r2=r1.nextFloat();
 			if(r2<=0.5)
 			{
-				selection[i].CrossOver(point, selection[i+1]);
-				selection[i+1].CrossOver(point, selection[i]);
+				selectedChromosomes[i].crossOver(point, selectedChromosomes[i+1]);
+				selectedChromosomes[i+1].crossOver(point, selectedChromosomes[i]);
 			}
 			
 		}
