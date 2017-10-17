@@ -8,9 +8,8 @@ public class Chromosome {
 	}
 	
 	public void CrossOver(int point,Chromosome c) {
-		
-			for(int i=0;i<point;++i)
-				bits[i]=c.bits[i];
-		
+		for(int i=0;i<point;++i)
+			bits[i]=c.bits[i];	
 	}
+	
 }

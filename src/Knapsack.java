@@ -3,31 +3,43 @@ import java.util.Random;
 public class Knapsack {
 	public static TestCase [] TestCases;
 	public static Chromosome randomPopulation[];
-	public static int popSize = 5; // need to be verified
-	public static int maxNumberOfGenerations = 3;// need to be verified
+	public static int popSize = 5; // can be changed
+	public static int maxNumberOfGenerations = 1;// can be changed
+	public static Chromosome selectedChromosomes[];
 	
 	public static void main(String [] args){
 		int testCasesNumber = FileUtility.readTestCasesFile();
+		int selectionSize = 0;
+		
+		if(popSize % 2 == 0){
+			selectionSize = popSize;
+		}
+		else{
+			selectionSize = popSize-1;
+		}
 		
 		for(int i=0;i<testCasesNumber;i++){
 			int itemsNumber = TestCases[i].Items.length; 
 			randomPopulation = new Chromosome[popSize];
 			
-			initPopulation(itemsNumber);
+			Utils.initPopulation(itemsNumber);
 			
+			selectedChromosomes = new Chromosome[selectionSize];
+					
 			//for(int c=0;c<maxNumberOfGenerations;c++){
 				for(int itemIndex=0;itemIndex<itemsNumber;itemIndex++){
 					calcFitness(itemsNumber,TestCases[i]);
 				}
 				
 				
-				/* here where Selection function should be called */
+				selectChoromosomes(selectionSize);
 				
 				/* here where Xover function should be called */
 				
 				/* here where mutation function should be called */
 				
 				/* here where replacement function should be called */
+				/* note: don't forget to change popSize if needed */
 				
 			//}
 			
@@ -42,25 +54,6 @@ public class Knapsack {
 		
 	}
 	
-	private static void initPopulation(int itemsNumber){
-		double random;
-		
-		for(int i=0;i<popSize;i++){
-			randomPopulation[i] = new Chromosome(itemsNumber);
-			
-			for(int c=0;c<itemsNumber;c++){
-				
-				random = Math.random();
-				
-				if(random > 0.5){
-					randomPopulation[i].bits[c] = 1;
-				}
-				else{
-					randomPopulation[i].bits[c] = 0;
-				}
-			}
-		}
-	}
 	
 	// each item is represented as one bit
 	private static void calcFitness(int bitsNumber,TestCase testCase){
@@ -91,7 +84,29 @@ public class Knapsack {
 		}
 	}
 	
-	public static void CrossOver(Chromosome selection[]) {
+	private static void selectChoromosomes(int selectionSize){
+		Utils.sortRandomPopulation();
+		
+		int fitnessSummation = 0;
+		int randomNumber;
+		
+		for(int chromosomeIndex=0;chromosomeIndex<popSize;chromosomeIndex++){
+			fitnessSummation += randomPopulation[chromosomeIndex].fitness;
+		}
+		
+		for(int selectedIndex=0;selectedIndex<selectionSize;selectedIndex++){
+			randomNumber = (int)Math.random()*fitnessSummation;
+			
+			for(int chromosomeIndex=0;chromosomeIndex<popSize;chromosomeIndex++){
+				if(randomNumber <= randomPopulation[chromosomeIndex].fitness){
+					selectedChromosomes[selectedIndex] = randomPopulation[chromosomeIndex];
+					break;
+				}
+			}
+		}
+	}
+	
+	private static void CrossOver(Chromosome selection[]) {
 		for(int i=0;i<selection.length-2;i+=2) {
 			Random r1 = new Random();
 			int point = r1.nextInt(selection[i].bits.length);
