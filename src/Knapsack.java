@@ -4,8 +4,8 @@ import java.util.Random;
 public class Knapsack {
 	public static TestCase [] TestCases;
 	public static Chromosome randomPopulation[];
-	public static int popSize = 5; // can be changed
-	public static int maxNumberOfGenerations = 1;// can be changed
+	public static int popSize = 1000; // can be changed
+	public static int maxNumberOfGenerations = 100;// can be changed
 	public static Chromosome selectedChromosomes[];
 	public static Chromosome offspringChromosomes[];
 	
@@ -25,49 +25,59 @@ public class Knapsack {
 			randomPopulation = new Chromosome[popSize];
 			
 			Utils.initPopulation(itemsNumber);
-			
+			for(int itemIndex=0;itemIndex<itemsNumber;itemIndex++){
+				calcFitness(randomPopulation,itemsNumber,TestCases[i]);
+			}
 			selectedChromosomes = new Chromosome[selectionSize];
 					
-			//for(int c=0;c<maxNumberOfGenerations;c++){
-				for(int itemIndex=0;itemIndex<itemsNumber;itemIndex++){
-					calcFitness(itemsNumber,TestCases[i]);
-				}
+			for(int c=0;c<maxNumberOfGenerations;c++){
+				
+				
 				
 				
 				selectChoromosomes(selectionSize);
 				offspringChromosomes = Arrays.copyOf(selectedChromosomes, selectionSize);
 				crossOver();
+				mutation();
+				resetFitness(offspringChromosomes);
+				for(int itemIndex=0;itemIndex<itemsNumber;itemIndex++){
+					calcFitness(offspringChromosomes,itemsNumber,TestCases[i]);
+				}
+				for(int j=0;j<popSize;++j) {
+					if(offspringChromosomes[j].fitness>randomPopulation[j].fitness)
+						randomPopulation[j]=offspringChromosomes[j];
+				}
 				
-				/* here where mutation function should be called */
 				
-				/* here where replacement function should be called */
-				/* note: don't forget to change popSize if needed */
-				
-			//}
-			
-			/* for testing */
-			/*for(int tmp=0;tmp<popSize;tmp++){
-				System.out.print(randomPopulation[tmp].fitness+" ");
 			}
-			System.out.print(TestCases[i].knapsackSize+" "+i+"\n");*/	
 			
+			int max = 0;
+			for(int tmp=0;tmp<popSize;tmp++){
+				max=Math.max(max,randomPopulation[tmp].fitness);
+			}
+			System.out.println("Case "+(i+1)+": "+max);
 		}
 		
 		
 	}
 	
-	
+	private static void resetFitness(Chromosome population[]) {
+		for(int i=0;i<population.length;++i)
+		{
+			population[i].fitness=0;
+		}
+	}
 	// each item is represented as one bit
-	private static void calcFitness(int bitsNumber,TestCase testCase){
+	private static void calcFitness(Chromosome population[],int bitsNumber,TestCase testCase){
 		int chromosomeBenefit;
 		int chromosomeWeight;
 		
-		for(int chromosomeIndex=0;chromosomeIndex<popSize;chromosomeIndex++){
+		for(int chromosomeIndex=0;chromosomeIndex<population.length;chromosomeIndex++){
 			chromosomeBenefit = 0;
 			chromosomeWeight = 0;
 			
 			for(int bitIndex=0;bitIndex<bitsNumber;bitIndex++){
-				if(randomPopulation[chromosomeIndex].bits[bitIndex] == 1){
+				if(population[chromosomeIndex].bits[bitIndex] == 1){
 					chromosomeBenefit += testCase.getItemBenefit(bitIndex);
 					chromosomeWeight += testCase.getItemWeight(bitIndex);
 					
@@ -78,10 +88,10 @@ public class Knapsack {
 			}
 			
 			if(chromosomeWeight > testCase.knapsackSize){
-				randomPopulation[chromosomeIndex].fitness = 0;
+				population[chromosomeIndex].fitness = 0;
 			}
 			else{
-				randomPopulation[chromosomeIndex].fitness = chromosomeBenefit;
+				population[chromosomeIndex].fitness = chromosomeBenefit;
 			}
 		}
 	}
@@ -109,11 +119,11 @@ public class Knapsack {
 	}
 	
 	private static void crossOver() {
-		for(int i=0;i<selectedChromosomes.length-2;i+=2) {
+		for(int i=0;i<selectedChromosomes.length-1;i+=2) {
 			Random r1 = new Random();
 			int point = r1.nextInt(selectedChromosomes[i].bits.length);
 			float r2=r1.nextFloat();
-			if(r2<=0.5)
+			if(r2<=0.7)
 			{
 				selectedChromosomes[i].crossOver(point, selectedChromosomes[i+1]);
 				selectedChromosomes[i+1].crossOver(point, selectedChromosomes[i]);
@@ -123,13 +133,14 @@ public class Knapsack {
 	}
 	private static void mutation()
 	{
-		double Pm=0.001;
+		double Pm=0.01;
 		for(int i=0;i<offspringChromosomes.length;i++)
 		{
 			for(int j=0;j<offspringChromosomes[i].bits.length;j++)
 			{
-				double random=Math.random();
-				if(random<=Pm)
+				Random r = new Random();
+				
+				if(r.nextFloat()<=Pm)
 				{
 					if(offspringChromosomes[i].bits[j]==1)
 					{
