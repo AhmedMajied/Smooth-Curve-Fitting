@@ -23,13 +23,11 @@ public class FileUtility {
 				knapsackSize = in.nextInt();
 				Knapsack.TestCases[i] = new TestCase(knapsackSize,itemsNumber);
 				
-				System.out.println(itemsNumber+"\n"+knapsackSize);
 				
 				for(int c=0;c<itemsNumber;c++){
 					weight = in.nextInt();
 					benefit = in.nextInt();
 					Knapsack.TestCases[i].Items[c] = new Item(weight,benefit);
-					System.out.println(weight+" "+benefit);
 				}
 			}
 			

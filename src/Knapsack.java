@@ -31,10 +31,7 @@ public class Knapsack {
 			selectedChromosomes = new Chromosome[selectionSize];
 					
 			for(int c=0;c<maxNumberOfGenerations;c++){
-				
-				
-				
-				
+							
 				selectChoromosomes(selectionSize);
 				offspringChromosomes = Arrays.copyOf(selectedChromosomes, selectionSize);
 				crossOver();
@@ -43,10 +40,14 @@ public class Knapsack {
 				for(int itemIndex=0;itemIndex<itemsNumber;itemIndex++){
 					calcFitness(offspringChromosomes,itemsNumber,TestCases[i]);
 				}
-				for(int j=0;j<popSize;++j) {
+				
+				//Replacement
+				
+				/*for(int j=0;j<popSize;++j) {
 					if(offspringChromosomes[j].fitness>randomPopulation[j].fitness)
 						randomPopulation[j]=offspringChromosomes[j];
-				}
+				}*/
+				randomPopulation=Arrays.copyOf(offspringChromosomes, popSize);
 				
 				
 			}
