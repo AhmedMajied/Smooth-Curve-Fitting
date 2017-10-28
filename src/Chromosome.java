@@ -6,12 +6,13 @@ public class Chromosome implements Comparable<Chromosome> {
 	public Float fitnessUpperBound;
 
 	public Chromosome(int degree) {
-		genes = new Float[degree];
+		genes = new Float[degree+1];
 	}
 	
 	public Chromosome(Chromosome c) {
 		fitness=c.fitness;
 		fitnessUpperBound=c.fitnessUpperBound;
+		genes=new Float[c.genes.length];
 		for(int i=0;i<genes.length;++i) {
 			genes[i]=c.genes[i];
 		}
