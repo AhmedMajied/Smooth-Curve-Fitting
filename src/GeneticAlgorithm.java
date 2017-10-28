@@ -19,7 +19,7 @@ public class GeneticAlgorithm {
 		Chromosome[] offsprings = performCrossOver(selectedChromosomes);
 		
 		//Perform Mutation
-		performMutation(offsprings);
+		performMutation(offsprings,degree, maxGeneration);
 		
 		//Perform Replacement
 		performReplacement(population, offsprings);
@@ -68,8 +68,40 @@ public class GeneticAlgorithm {
 		return offsprings;
 	}
 	
-	private static void performMutation(Chromosome[] offsprings) {
-		// To Be Implemented By Mina Nabil
+	private static void performMutation(Chromosome[] offsprings,int degree,int T) {
+		Random r1 = new Random();
+		Random r2 = new Random();
+		Random r3 = new Random();
+		Random r4 = new Random();
+		double num = 0.0,num2=0.0,doMutation=0.0,change=0.0;
+		double LBound=-10,UBound=10,y,deltaL,deltaU,amounfOfMutation;
+		int t=1; //current generation
+		
+		for(int i=0;i<offsprings.length;i++){
+			for(int j=0;j<degree;j++){
+				num=r1.nextDouble();
+				deltaL=offsprings[i].genes[j]-LBound;
+				deltaU=UBound-offsprings[i].genes[j];
+				
+				if(num>0.5)
+					y=deltaU;
+				else
+					y=deltaL;
+				
+				num2=r2.nextDouble();
+				amounfOfMutation=y*(1-Math.pow(num2, Math.pow(1-(t/T), 0.5)));
+				
+				doMutation=r3.nextDouble();
+				if(doMutation>0.01){
+					change=r4.nextDouble();
+					if(change>0.5)
+						offsprings[i].genes[j]+=(float)amounfOfMutation;
+					else
+						offsprings[i].genes[j]-=(float)amounfOfMutation;
+				}
+			}
+		}
+		
 	}
 	
 	private static void performReplacement(Chromosome[] population,Chromosome [] offsprings) {
