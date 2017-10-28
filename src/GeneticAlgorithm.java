@@ -26,7 +26,7 @@ public class GeneticAlgorithm {
 			Chromosome[] offsprings = performCrossOver(selectedChromosomes);
 			
 			//Perform Mutation
-			performMutation(offsprings,degree, t,maxGeneration);
+			performMutation(offsprings,degree, t);
 			
 			//Perform Replacement
 			performReplacement(population, offsprings);
@@ -82,7 +82,7 @@ public class GeneticAlgorithm {
 		return offsprings;
 	}
 	
-	private static void performMutation(Chromosome[] offsprings,int t,int degree,int T) {
+	private static void performMutation(Chromosome[] offsprings,int t,int degree) {
 
 		Random r1 = new Random();
 		Random r2 = new Random();
@@ -103,7 +103,7 @@ public class GeneticAlgorithm {
 					y=deltaL;
 				
 				num2=r2.nextDouble();
-				amounfOfMutation=y*(1-Math.pow(num2, Math.pow(1-(t/T), 0.5)));
+				amounfOfMutation=y*(1-Math.pow(num2, Math.pow(1-(t/maxGeneration), 0.5)));
 				
 				doMutation=r3.nextDouble();
 				if(doMutation>0.01){

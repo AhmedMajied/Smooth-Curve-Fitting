@@ -26,7 +26,7 @@ public class Chromosome implements Comparable<Chromosome> {
 	
 	public void calcSingleChromosomeFitness(Point[] points) {
 	
-		fitness = 0.0f;// i think we should zero it first
+		fitness = 0.0f;
 		for(int i=0;i<points.length;++i) {
 			int x = 1;
 			float y = 0;
@@ -37,7 +37,8 @@ public class Chromosome implements Comparable<Chromosome> {
 			}
 			fitness += (points[i].y-y)*(points[i].y-y); 
 		}
-		fitness /= points.length; // i think the right is fitness = 1 / fitness / points.length
+		fitness /= points.length;
+		fitness = 1.0f/fitness;
 	}
 	
 	public void generateRandomGenes(int low,int high) {
