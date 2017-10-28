@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class GeneticAlgorithm {
+
 	
 	private static int populationSize=100;
 	private static int maxGeneration=100;
@@ -43,6 +44,7 @@ public class GeneticAlgorithm {
 			population[i] = new Chromosome(degree);
 			population[i].generateRandomGenes(LBound, UBound);
 		}
+		
 		return population;
 	}
 	
@@ -55,7 +57,7 @@ public class GeneticAlgorithm {
 	private static Chromosome[] performSelection(int selectionSize,Chromosome []population) {
 		Chromosome[] selectedChromosomes=new Chromosome[selectionSize];
 		calculateUpperBound(population);
-		
+
 		for(int i=0;i<selectionSize;++i) {
 			Random random=new Random();
 			selectedChromosomes[i]=population[upper_bound(population,
@@ -76,20 +78,19 @@ public class GeneticAlgorithm {
 				offsprings[i].PerformSinglecrossOver(point, offsprings[i+1]);
 				offsprings[i+1].PerformSinglecrossOver(point, tmp);
 			}
-			
 		}
 		return offsprings;
 	}
 	
 	private static void performMutation(Chromosome[] offsprings,int t,int degree,int T) {
+
 		Random r1 = new Random();
 		Random r2 = new Random();
 		Random r3 = new Random();
 		Random r4 = new Random();
 		double num = 0.0,num2=0.0,doMutation=0.0,change=0.0;
 		double y,deltaL,deltaU,amounfOfMutation;
-		
-		
+
 		for(int i=0;i<offsprings.length;i++){
 			for(int j=0;j<degree;j++){
 				num=r1.nextDouble();
