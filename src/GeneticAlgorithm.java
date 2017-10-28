@@ -3,42 +3,45 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 	
+	private static int populationSize=100;
+	private static int maxGeneration=100;
+	private static int selectionSize=populationSize;
+	private static float LBound = -10.0f;
+	private static float UBound = 10.0f;
+	
 	public static double run(int degree, Point[]points) {
-		
-		int populationSize=100;
-		int maxGeneration=100;
-		int selectionSize=populationSize;
 		
 		// Generate Random Population
 		Chromosome[] population=generateRandomPopulation(populationSize, degree);
 		
-		//Evaluate Fitness Function
-		calculateFitness(population, points);
+		for(int t=0;t<maxGeneration;t++){
+			//Evaluate Fitness Function
+			calculateFitness(population, points);
+			
+			//Perform Selection
+			Chromosome[] selectedChromosomes = performSelection(selectionSize, population);
+			
+			//Perform CrossOver
+			Chromosome[] offsprings = performCrossOver(selectedChromosomes);
+			
+			//Perform Mutation
+			performMutation(offsprings,degree, t,maxGeneration);
+			
+			//Perform Replacement
+			performReplacement(population, offsprings);
+		}
 		
-		//Perform Selection
-		Chromosome[] selectedChromosomes = performSelection(selectionSize, population);
-		
-		//Perform CrossOver
-		Chromosome[] offsprings = performCrossOver(selectedChromosomes);
-		
-		//Perform Mutation
-		performMutation(offsprings);
-		
-		//Perform Replacement
-		performReplacement(population, offsprings);
 		
 		return 0;
 	}
 	
 	private static Chromosome[] generateRandomPopulation(int size,int degree) {
-		float low = -10;
-		float high = 10;
 		
 		Chromosome[] population = new Chromosome[size];
 		
 		for(int i=0;i<size;++i) {
 			population[i] = new Chromosome(degree);
-			population[i].generateRandomGenes(low, high);
+			population[i].generateRandomGenes(LBound, UBound);
 		}
 		return population;
 	}
@@ -78,8 +81,40 @@ public class GeneticAlgorithm {
 		return offsprings;
 	}
 	
-	private static void performMutation(Chromosome[] offsprings) {
-		// To Be Implemented By Mina Nabil
+	private static void performMutation(Chromosome[] offsprings,int t,int degree,int T) {
+		Random r1 = new Random();
+		Random r2 = new Random();
+		Random r3 = new Random();
+		Random r4 = new Random();
+		double num = 0.0,num2=0.0,doMutation=0.0,change=0.0;
+		double y,deltaL,deltaU,amounfOfMutation;
+		
+		
+		for(int i=0;i<offsprings.length;i++){
+			for(int j=0;j<degree;j++){
+				num=r1.nextDouble();
+				deltaL=offsprings[i].genes[j]-LBound;
+				deltaU=UBound-offsprings[i].genes[j];
+				
+				if(num>0.5)
+					y=deltaU;
+				else
+					y=deltaL;
+				
+				num2=r2.nextDouble();
+				amounfOfMutation=y*(1-Math.pow(num2, Math.pow(1-(t/T), 0.5)));
+				
+				doMutation=r3.nextDouble();
+				if(doMutation>0.01){
+					change=r4.nextDouble();
+					if(change>0.5)
+						offsprings[i].genes[j]+=(float)amounfOfMutation;
+					else
+						offsprings[i].genes[j]-=(float)amounfOfMutation;
+				}
+			}
+		}
+		
 	}
 	
 	private static void performReplacement(Chromosome[] population,Chromosome [] offsprings) {

@@ -20,12 +20,13 @@ public class Chromosome implements Comparable<Chromosome> {
 	public void generateRandomGenes(float low,float high) {
 		for(int i=0;i<genes.length;++i) {
 			Random random = new Random();
-			genes[i]=(high-low)*random.nextFloat()+low;// i think the right is random.nextFloat(high)+low
+			genes[i]=(high-low)*random.nextFloat()+low;// why we use (high-low)?
 		}
 	}
 	
 	public void calcSingleChromosomeFitness(Point[] points) {
-		
+	
+		fitness = 0.0f;// i think we should zero it first
 		for(int i=0;i<points.length;++i) {
 			int x = 1;
 			float y = 0;
