@@ -21,7 +21,7 @@ public class Chromosome implements Comparable<Chromosome> {
 	public void generateRandomGenes(float low,float high) {
 		for(int i=0;i<genes.length;++i) {
 			Random random = new Random();
-			genes[i]=(high-low)*random.nextFloat()+low;// why we use (high-low)?
+			genes[i]=(high-low)*random.nextFloat()+low;
 		}
 	}
 	
