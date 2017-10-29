@@ -10,7 +10,7 @@ public class GeneticAlgorithm {
 	private static double LBound = -10.0;
 	private static double UBound = 10.0;
 	
-	public static double run(int degree, Point[]points) {
+	public static double[] run(int degree, Point[]points) {
 		
 		// Generate Random Population
 		Chromosome[] population=generateRandomPopulation(populationSize, degree);
@@ -18,7 +18,7 @@ public class GeneticAlgorithm {
 		for(int t=0;t<maxGeneration;t++){
 			//Evaluate Fitness Function
 			calculateFitness(population, points);
-			
+	
 			//Perform Selection
 			Chromosome[] selectedChromosomes = performSelection(selectionSize, population);
 			
@@ -32,8 +32,20 @@ public class GeneticAlgorithm {
 			performReplacement(population, offsprings);
 		}
 		
+		// get best chromosome
+		double fitness=population[0].fitness;
+		int index=0;
 		
-		return 0;
+		for(int k=1;k<population.length;k++)
+		{
+			if(fitness<population[k].fitness)
+			{
+				index=k;
+				fitness=population[k].fitness;
+			}
+		}
+		
+		return population[index].genes;
 	}
 	
 	private static Chromosome[] generateRandomPopulation(int size,int degree) {
@@ -74,6 +86,7 @@ public class GeneticAlgorithm {
 			double r2=r1.nextDouble();
 			if(r2<=0.7)
 			{
+
 				Chromosome tmp = new Chromosome(offsprings[i]);
 				offsprings[i].PerformSinglecrossOver(point, offsprings[i+1]);
 				offsprings[i+1].PerformSinglecrossOver(point, tmp);
@@ -89,7 +102,8 @@ public class GeneticAlgorithm {
 		double y,deltaL,deltaU,amounfOfMutation;
 
 		for(int i=0;i<offsprings.length;i++){
-			for(int j=0;j<degree;j++){
+
+			for(int j=0;j<offsprings[i].genes.length;j++){// here degree 
 				r=r1.nextDouble();
 				deltaL=offsprings[i].genes[j]-LBound;
 				deltaU=UBound-offsprings[i].genes[j];

@@ -6,12 +6,13 @@ public class Chromosome implements Comparable<Chromosome> {
 	public Double fitnessUpperBound;
 
 	public Chromosome(int degree) {
-		genes = new double[degree];
+		genes = new double[degree+1];// why degree +1?
 	}
 	
 	public Chromosome(Chromosome c) {
 		fitness=c.fitness;
 		fitnessUpperBound=c.fitnessUpperBound;
+		genes=new double[c.genes.length];
 		for(int i=0;i<genes.length;++i) {
 			genes[i]=c.genes[i];
 		}
