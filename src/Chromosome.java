@@ -1,12 +1,12 @@
 import java.util.Random;
 
 public class Chromosome implements Comparable<Chromosome> {
-	public Float genes[];
-	public Float fitness;
-	public Float fitnessUpperBound;
+	public double genes[];
+	public double fitness;
+	public Double fitnessUpperBound;
 
 	public Chromosome(int degree) {
-		genes = new Float[degree];
+		genes = new double[degree];
 	}
 	
 	public Chromosome(Chromosome c) {
@@ -17,16 +17,16 @@ public class Chromosome implements Comparable<Chromosome> {
 		}
 	}
 	
-	public void generateRandomGenes(float low,float high) {
+	public void generateRandomGenes(double low,double high) {
 		for(int i=0;i<genes.length;++i) {
 			Random random = new Random();
-			genes[i]=(high-low)*random.nextFloat()+low;// why we use (high-low)?
+			genes[i]=(high-low)*random.nextDouble()+low;// why we use (high-low)?
 		}
 	}
 	
 	public void calcSingleChromosomeFitness(Point[] points) {
 	
-		fitness = 0.0f;
+		fitness = 0.0;
 		for(int i=0;i<points.length;++i) {
 			int x = 1;
 			float y = 0;
@@ -38,27 +38,14 @@ public class Chromosome implements Comparable<Chromosome> {
 			fitness += (points[i].y-y)*(points[i].y-y); 
 		}
 		fitness /= points.length;
-		fitness = 1.0f/fitness;
+		fitness = 1.0/fitness;
 	}
 	
 	public void generateRandomGenes(int low,int high) {
 		for(int i=0;i<genes.length;++i) {
 			Random random = new Random();
-			genes[i]=(high-low)*random.nextFloat()+low;
+			genes[i]=(high-low)*random.nextDouble()+low;
 		}
-	}
-
-	public void calculateFitness(Point[] points) {
-		for(int i=0;i<points.length;++i) {
-			int x=1;
-			float y=0;
-			for(int j=0;j<genes.length;++j) {
-				y+=x*genes[j];
-				x*=points[i].x;
-			}
-			fitness+=(points[i].y-y)*(points[i].y-y);
-		}
-		fitness/=points.length;
 	}
 	
 	public void PerformSinglecrossOver(int point,Chromosome c) {
@@ -69,6 +56,6 @@ public class Chromosome implements Comparable<Chromosome> {
 	
 	@Override
 	public int compareTo(Chromosome chromosome) {
-		return Float.compare(this.fitnessUpperBound, chromosome.fitnessUpperBound);
+		return Double.compare(this.fitnessUpperBound, chromosome.fitnessUpperBound);
 	}
 }

@@ -5,10 +5,10 @@ public class GeneticAlgorithm {
 
 	
 	private static int populationSize=100;
-	private static int maxGeneration=100;
+	private static int maxGeneration=4;
 	private static int selectionSize=populationSize;
-	private static float LBound = -10.0f;
-	private static float UBound = 10.0f;
+	private static double LBound = -10.0;
+	private static double UBound = 10.0;
 	
 	public static double run(int degree, Point[]points) {
 		
@@ -61,7 +61,7 @@ public class GeneticAlgorithm {
 		for(int i=0;i<selectionSize;++i) {
 			Random random=new Random();
 			selectedChromosomes[i]=population[upper_bound(population,
-					(population[population.length-1].fitnessUpperBound-1)*random.nextFloat())];
+					(population[population.length-1].fitnessUpperBound-1)*random.nextDouble())];
 		}
 		return selectedChromosomes;
 	}
@@ -71,7 +71,7 @@ public class GeneticAlgorithm {
 		for(int i=0;i<selectedChromosomes.length-1;i+=2) {
 			Random r1 = new Random();
 			int point = r1.nextInt(selectedChromosomes[i].genes.length);
-			float r2=r1.nextFloat();
+			double r2=r1.nextDouble();
 			if(r2<=0.7)
 			{
 				Chromosome tmp = new Chromosome(offsprings[i]);
@@ -85,33 +85,32 @@ public class GeneticAlgorithm {
 	private static void performMutation(Chromosome[] offsprings,int t,int degree) {
 
 		Random r1 = new Random();
-		Random r2 = new Random();
-		Random r3 = new Random();
-		Random r4 = new Random();
-		double num = 0.0,num2=0.0,doMutation=0.0,change=0.0;
+		double r = 0.0,doMutation=0.0,dependency = 0.5;
 		double y,deltaL,deltaU,amounfOfMutation;
 
 		for(int i=0;i<offsprings.length;i++){
 			for(int j=0;j<degree;j++){
-				num=r1.nextDouble();
+				r=r1.nextDouble();
 				deltaL=offsprings[i].genes[j]-LBound;
 				deltaU=UBound-offsprings[i].genes[j];
 				
-				if(num>0.5)
+				if(r>0.5)
 					y=deltaU;
 				else
 					y=deltaL;
 				
-				num2=r2.nextDouble();
-				amounfOfMutation=y*(1-Math.pow(num2, Math.pow(1-(t/maxGeneration), 0.5)));
+				amounfOfMutation=y*(1-Math.pow(r, Math.pow(1-(t/maxGeneration), dependency)));
 				
-				doMutation=r3.nextDouble();
+				doMutation=r1.nextDouble();
 				if(doMutation>0.01){
-					change=r4.nextDouble();
-					if(change>0.5)
-						offsprings[i].genes[j]+=(float)amounfOfMutation;
-					else
-						offsprings[i].genes[j]-=(float)amounfOfMutation;
+					
+					if(r > 0.5){
+						offsprings[i].genes[j]+=amounfOfMutation;
+					}
+					else{
+						offsprings[i].genes[j]-=amounfOfMutation;
+					}
+					
 				}
 			}
 		}
@@ -122,7 +121,8 @@ public class GeneticAlgorithm {
 		population=Arrays.copyOf(offsprings, offsprings.length);
 	}
 	
-	public static int upper_bound(Chromosome[] population, float key) {
+	// TODO Andrew should test this function
+	public static int upper_bound(Chromosome[] population, double key) {
         int size = population.length;
         int start = 0;
         int end = size-1;
@@ -132,7 +132,7 @@ public class GeneticAlgorithm {
             if (cmp == 0 || cmp < 0) {
                 start = mid+1;
                 if (end < start)
-                    return mid<size-1?mid+1:-1;
+                    return mid<size-1?mid+1:size-1;
             } else {
                 end = mid-1;
                 if (end < start)
