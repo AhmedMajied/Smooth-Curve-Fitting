@@ -7,6 +7,7 @@ public class Chromosome implements Comparable<Chromosome> {
 
 	public Chromosome(int degree) {
 		genes = new double[degree+1];// why degree +1?
+		fitnessUpperBound=0.0;
 	}
 	
 	public Chromosome(Chromosome c) {
@@ -16,6 +17,7 @@ public class Chromosome implements Comparable<Chromosome> {
 		for(int i=0;i<genes.length;++i) {
 			genes[i]=c.genes[i];
 		}
+		fitnessUpperBound=c.fitnessUpperBound;
 	}
 	
 	public void generateRandomGenes(double low,double high) {
@@ -30,7 +32,7 @@ public class Chromosome implements Comparable<Chromosome> {
 		fitness = 0.0;
 		for(int i=0;i<points.length;++i) {
 			int x = 1;
-			float y = 0;
+			double y = 0;
 			
 			for(int j=0;j<genes.length;++j) {
 				y += x*genes[j];
