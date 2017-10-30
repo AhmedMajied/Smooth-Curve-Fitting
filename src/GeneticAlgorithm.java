@@ -101,7 +101,7 @@ public class GeneticAlgorithm {
 		double y,deltaL,deltaU,amounfOfMutation;
 
 		for(int i=0;i<offsprings.length;i++){
-			for(int j=0;j<degree;j++){// here degree 
+			for(int j=0;j<(degree+1);j++){// degree+1 as cofficients in genes = degree+1
 				r=r1.nextDouble();
 				deltaL=offsprings[i].genes[j]-LBound;
 				deltaU=UBound-offsprings[i].genes[j];
