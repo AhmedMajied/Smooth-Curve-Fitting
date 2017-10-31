@@ -101,7 +101,7 @@ public class GeneticAlgorithm {
 		double y,deltaL,deltaU,amounfOfMutation;
 
 		for(int i=0;i<offsprings.length;i++){
-			for(int j=0;j<(degree+1);j++){// degree+1 as cofficients in genes = degree+1
+			for(int j=0;j<(degree+1);j++){
 				r=r1.nextDouble();
 				deltaL=offsprings[i].genes[j]-LBound;
 				deltaU=UBound-offsprings[i].genes[j];
@@ -126,7 +126,6 @@ public class GeneticAlgorithm {
 				}
 			}
 		}
-		
 	}
 	
 	private static void performReplacement(Chromosome[] population,Chromosome [] offsprings) {
