@@ -25,8 +25,15 @@ public class Main {
 			}
 			
 			System.out.println("case "+i);
-			
-			double cofficient[]=new double[degree+1];
+			Chromosome chromosome=new Chromosome(degree);
+			chromosome=GeneticAlgorithm.run(degree, points);
+			for(int k=0;k<chromosome.genes.length;k++)
+			{
+				System.out.print(chromosome.genes[k]+"\t ");
+			}
+			System.out.println();
+			System.out.println("Error : "+(1/chromosome.fitness)+"\t"+chromosome.fitness);
+			/*double cofficient[]=new double[degree+1];
 			cofficient=GeneticAlgorithm.run(degree, points);
 			
 			for(int k=0;k<cofficient.length;k++)
@@ -34,6 +41,10 @@ public class Main {
 				System.out.print(cofficient[k]+"\t ");
 			}
 			System.out.println();
+			// error is 1 / maxFitness 
+			/*Chromosome c=new Chromosome(degree);
+			c.calcSingleChromosomeFitness(points);
+			System.out.println("Error : "+(1/c.fitness)+"\n");*/
 		}
 		input.close();
 	}

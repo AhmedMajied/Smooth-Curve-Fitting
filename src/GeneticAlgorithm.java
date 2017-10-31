@@ -10,7 +10,7 @@ public class GeneticAlgorithm {
 	private static double LBound = -10.0;
 	private static double UBound = 10.0;
 	
-	public static double[] run(int degree, Point[]points) {
+	public static Chromosome run(int degree, Point[]points) {
 		
 		// Generate Random Population
 		Chromosome[] population=generateRandomPopulation(populationSize, degree);
@@ -43,7 +43,7 @@ public class GeneticAlgorithm {
 				fitness=population[k].fitness;
 			}
 		}
-		return population[index].genes;
+		return population[index];
 	}
 	
 	private static Chromosome[] generateRandomPopulation(int size,int degree) {
