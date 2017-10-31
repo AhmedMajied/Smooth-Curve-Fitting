@@ -4,17 +4,17 @@ import java.util.Random;
 public class GeneticAlgorithm {
 
 	
-	private static int populationSize=1000;
-	private static int maxGeneration=100;
+	private static int populationSize=100000;
+	private static int maxGeneration=10;
 	private static int selectionSize=populationSize;
 	private static double LBound = -10.0;
 	private static double UBound = 10.0;
 	
-	public static double[] run(int degree, Point[]points) {
+	public static Chromosome run(int degree, Point[]points) {
 		
 		// Generate Random Population
 		Chromosome[] population=generateRandomPopulation(populationSize, degree);
-		//printPop(population);
+		
 		for(int t=0;t<maxGeneration;t++){
 			//Evaluate Fitness Function
 			calculateFitness(population, points);
@@ -43,7 +43,7 @@ public class GeneticAlgorithm {
 				fitness=population[k].fitness;
 			}
 		}
-		return population[index].genes;
+		return population[index];
 	}
 	
 	private static Chromosome[] generateRandomPopulation(int size,int degree) {
@@ -132,7 +132,6 @@ public class GeneticAlgorithm {
 		population=Arrays.copyOf(offsprings, offsprings.length);
 	}
 	
-	// TODO Andrew should test this function -- ya3m sh3'alaaaa mat2rfonash b2aa
 	public static int upper_bound(Chromosome[] population, double key) {
         int size = population.length;
         int start = 0;
@@ -159,16 +158,5 @@ public class GeneticAlgorithm {
 			population[i].fitnessUpperBound=population[i].fitness+population[i-1].fitnessUpperBound;
 		}
 	}
-//	
-//	private static void printPop(Chromosome[] pop) {
-//		for(int i=0;i<pop.length;++i) {
-//			System.out.println(pop[i].fitness);
-//			for(int j=0;j<pop[i].genes.length;++j) {
-//				System.out.print(pop[i].genes[j]+"  ");
-//			}
-//			System.out.println("\r\n"+pop[i].fitnessUpperBound+"\r\n--------------------\r\n\r\n");
-//			
-//		}
-//	}
 	
 }

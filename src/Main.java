@@ -25,15 +25,14 @@ public class Main {
 			}
 			
 			System.out.println("case "+i);
-			
-			double cofficient[]=new double[degree+1];
-			cofficient=GeneticAlgorithm.run(degree, points);
-			
-			for(int k=0;k<cofficient.length;k++)
+			Chromosome chromosome=new Chromosome(degree);
+			chromosome=GeneticAlgorithm.run(degree, points);
+			for(int k=0;k<chromosome.genes.length;k++)
 			{
-				System.out.print(cofficient[k]+"\t ");
+				System.out.print(chromosome.genes[k]+"\t ");
 			}
 			System.out.println();
+			System.out.println("Error : "+(1/chromosome.fitness));
 		}
 		input.close();
 	}
